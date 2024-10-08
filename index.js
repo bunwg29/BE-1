@@ -1,13 +1,21 @@
+// Express
 const express = require("express");
+
+// Use for get data of body
 const methodOverride = require("method-override");
 const bodyParser = require("body-parser");
+
+
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
+
+// Use for display toast
 const flash = require("express-flash");
 
-
+// Env
 require('dotenv').config()
 
+// Config routes
 const route = require("./routes/clients/index.route");
 const routeAdmin = require("./routes/admin/index.route");
 const database = require("./config/database");
@@ -32,7 +40,7 @@ app.set("view engine", "pug");
 
 app.use(cookieParser("keyboard cat"));
 app.use(session({ cookie: { maxAge: 60000 } }));
-app.use(flash());
+app.use(flash());   
 
 // End Flash
 

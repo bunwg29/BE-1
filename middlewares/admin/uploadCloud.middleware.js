@@ -1,6 +1,5 @@
 const cloudinary = require('cloudinary').v2;
 const streamifier = require('streamifier');
-const { prefixAdmin } = require('../../config/system');
 
  // Configuration
  cloudinary.config({ 

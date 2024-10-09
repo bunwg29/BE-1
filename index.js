@@ -1,5 +1,6 @@
 // Express
 const express = require("express");
+const path = require('path');
 
 // Use for get data of body
 const methodOverride = require("method-override");
@@ -44,8 +45,10 @@ app.use(flash());
 
 // End Flash
 
-// App Locals Variables
+//TinyMCE
+app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
 
+// App Locals Variables
 
 app.locals.prefixAdmin = systemConfig.prefixAdmin;
 app.use(express.static(`${__dirname}/public`));

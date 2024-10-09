@@ -1,6 +1,6 @@
 extends ../../layouts/default.pug
 include ../../mixins/alert.pug
-//- include ../../mixins/select-tree.pug
+include ../../mixins/select-tree.pug
 
 block main
   //- if(role.permissions.includes("products-category_view"))
@@ -24,21 +24,21 @@ block main
       )
     div(class="form-group")
       label(for="parent_id") Danh mục cha 
-      input(
-        type="text"
-        class="form-control"
+      //- input(
+      //-   type="text"
+      //-   class="form-control"
+      //-   name="parent_id"
+      //-   id="parent_id"
+      //-   required
+      //-   )
+      select(
         name="parent_id"
         id="parent_id"
-        required
-        )
-    //-   select(
-    //-     name="parent_id"
-    //-     id="parent_id"
-    //-     class="form-control"
-    //-   )
+        class="form-control"
+      )
         option(value="") -- Chọn danh mục cha --
         if(records)
-        //-   +select-tree(records)
+          +select-tree(records)
 
     div(class="form-group")
       label(for="desc") Mô tả

@@ -1,8 +1,10 @@
 const Product = require("../../models/product.model");
+const ProductCategory = require("../../models/product-category.model");
 const filterStatusHelper = require("../../helpers/filterStatus");
 const searchHelper = require("../../helpers/search");
 const paginationHelper = require("../../helpers/pagination");
 const systemConfig = require("../../config/system");
+const createTreeHelper = require("../../helpers/createTree")
 
 module.exports.index = async (req, res) => {
 
@@ -132,9 +134,20 @@ module.exports.deleteItem = async (req, res) =>  {
 };
 
 module.exports.create = async (req,res) => {
+
+    let find = {
+        deleted: false
+    }
+    
+    const category = await ProductCategory.find(find);
+    
+    const newCategory = createTreeHelper.tree(category);
+    
     res.render("admin/pages/products/create", {
-        pageTitle: "Add Product"
+        pageTitle: "Thêm mới sản phẩm",
+        category: newCategory
     });
+
 };
 
 module.exports.createPost = async (req,res) => {
@@ -163,30 +176,35 @@ module.exports.createPost = async (req,res) => {
 };
 
 
-module.exports.edit = async (req,res) => {
-   
-    try {
-
-        const find = {
-            deleted: false,
-            _id: req.params.id
-        }
-    
-        const product = await Product.findOne(find);
-    
-        res.render("admin/pages/products/edit", {
-            pageTitle: "Edit Product",
-            product: product
-        });
-
-    } catch (error) {
-
-        res.redirect(`${systemConfig.prefixAdmin}/products`);
-
+// [GET] /admin/products/edit:id
+module.exports.edit = async (req, res) => {
+  try {
+    const find = {
+      deleted: false,
+      _id: req.params.id
     }
+    
+    const product = await Product.findOne(find);
+    
+  
+    const category = await ProductCategory.find ({
+        deleted: false
+    });
+    
+    const newCategory = createTreeHelper.tree(category);
+  
+    res.render("admin/pages/products/edit", {
+        pageTitle: "Chỉnh sửa sản phẩm",
+        product: product,
+        category: newCategory
+  
+    });    
+  } catch (error) {
+      res.redirect(`${systemConfig.prefixAdmin}/products`);
+     
+  }  
 
-   
-};
+}   
 
 module.exports.editPatch = async (req,res) => {
     const id = req.params.id;
